@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cartel QR · CODEK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+<style>
+/* A4 vertical en granate CODEK (#993233). Imprimir: márgenes "Ninguno", escala 100 %,
+   "Gráficos de fondo" activado. */
+@page{size:A4 portrait;margin:0}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{margin:0;background:#993233}
+.sheet{width:210mm;height:297mm;padding:13mm 10mm 12mm;background:#993233;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+h1{margin:0;font-family:Montserrat,sans-serif;text-align:center;white-space:nowrap}
+h1 .l1{display:block;font-weight:800;font-size:30pt;line-height:1}
+h1 .l2{display:block;font-weight:900;font-size:96pt;line-height:.9;letter-spacing:-.01em;margin-top:2mm}
+.card{width:176mm;height:176mm;background:#fff;border-radius:7mm;padding:7mm}
+.card img{width:100%;height:100%;display:block}
+.logo{height:24mm;display:block}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1><span class="l1">¿Quieres una semana</span><span class="l2">GRATIS?</span></h1>
+  <div class="card"><img src="qr-puerta.svg" alt="QR semana gratis"></div>
+  <img class="logo" src="media/logo-blanco.png" alt="CODEK Training">
+</div>
+</body>
+</html>

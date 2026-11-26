@@ -34,9 +34,13 @@ button{font:inherit}
 .brand{position:absolute;top:calc(14px + env(safe-area-inset-top));left:var(--gutter);right:var(--gutter);z-index:2;display:flex;justify-content:space-between;align-items:center}
 .logo{font:900 22px/1 Archivo,sans-serif;letter-spacing:.04em}
 .logo small{display:block;font:600 9px/1 Inter,sans-serif;letter-spacing:.32em;margin-top:4px;opacity:.85}
-.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);padding:6px 10px;border-radius:99px}
-.live i{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.6s infinite}
-@keyframes pulse{50%{opacity:.25}}
+.top-actions{display:flex;gap:10px}
+.icon-btn{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18)}
+.icon-btn svg{width:22px;height:22px}
+.icon-btn.wa{background:#25d366;border-color:#25d366}
+.where{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;color:#fff;font-size:15px;font-weight:600;text-decoration:none}
+.where svg{width:18px;height:18px;color:var(--accent);flex:0 0 auto}
+.where u{text-decoration-color:rgba(255,255,255,.4);text-underline-offset:3px}
 .hero-copy{position:absolute;left:0;right:0;bottom:calc(24px + env(safe-area-inset-bottom));z-index:2}
 .tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 .hero h1{font-size:clamp(34px,10vw,52px);line-height:1.02;font-weight:900;text-wrap:balance}
@@ -45,7 +49,9 @@ button{font:inherit}
 .btn:active{transform:scale(.98)}
 .btn[disabled]{opacity:.45;box-shadow:none;cursor:not-allowed}
 .btn.ghost{background:transparent;color:var(--text);border:1.5px solid var(--line);box-shadow:none}
-.hint{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+.btn svg{width:22px;height:22px;flex:0 0 auto}
+.btn.wa{background:#25d366;color:#06301a;box-shadow:0 10px 30px -12px rgba(37,211,102,.7)}
+.btn.map{background:#fff;color:#111;box-shadow:none}
 
 /* ---------- SECTIONS ---------- */
 section{padding:56px 0 0}
@@ -105,10 +111,16 @@ h2{font-size:30px;line-height:1.08;font-weight:900;text-wrap:balance}
 .done p{color:var(--muted);margin:6px 0 18px}
 .done .btn{margin-top:10px}
 
-/* ---------- HOW TO GET THERE ---------- */
-.route{margin-top:22px;display:grid;gap:12px}
-.route .point b{font-size:16px}
-.map-link{margin-top:14px}
+/* ---------- DÓNDE ESTAMOS ---------- */
+.loc{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.loc iframe{display:block;width:100%;height:230px;border:0;background:var(--surface2)}
+.loc-body{padding:18px}
+.addr{font:800 20px/1.2 Archivo,sans-serif}
+.addr small{display:block;font:500 14px/1.4 Inter,sans-serif;color:var(--muted);margin-top:4px}
+.loc-btns{display:grid;gap:10px;margin-top:16px}
+.route{margin-top:16px;display:grid;gap:10px}
+.route .point{padding:14px}
+.route .point b{flex-basis:34px;height:34px;font-size:15px}
 
 footer{padding:48px 0 calc(110px + env(safe-area-inset-bottom));text-align:center;color:var(--muted);font-size:13px}
 footer .logo{color:var(--text);margin-bottom:8px}
@@ -116,7 +128,10 @@ footer .logo{color:var(--text);margin-bottom:8px}
 /* ---------- STICKY CTA ---------- */
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(14,15,17,0),rgba(14,15,17,.92) 35%);transform:translateY(110%);transition:transform .25s}
 .sticky.on{transform:none}
-.sticky .btn{max-width:520px;margin:0 auto}
+.sticky-in{display:flex;gap:10px;max-width:520px;margin:0 auto}
+.sticky .btn{flex:1}
+.sticky .icon-btn{width:56px;height:56px;flex:0 0 56px}
+.sticky .icon-btn svg{width:26px;height:26px}
 
 @media (min-width:900px){
   .hero{height:88vh}
@@ -124,7 +139,7 @@ footer .logo{color:var(--text);margin-bottom:8px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .live i,.skeleton{animation:none}
+  .skeleton{animation:none}
 }
 </style>
 </head>
@@ -136,18 +151,42 @@ footer .logo{color:var(--text);margin-bottom:8px}
   <video id="heroVideo" src="media/clase1.mp4" poster="media/clase1.jpg" autoplay muted loop playsinline preload="auto" aria-label="Clase en grupo en CODEK Training"></video>
   <div class="brand">
     <div class="logo">CODEK<small>TRAINING</small></div>
-    <span class="live"><i></i>Así es por dentro</span>
+    <div class="top-actions">
+      <a class="icon-btn" data-maps href="#" target="_blank" rel="noopener" aria-label="Cómo llegar en Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></a>
+      <a class="icon-btn wa" data-wa href="#" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.07-.13-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.89 9.88m8.41-18.3A11.81 11.81 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></svg></a>
+    </div>
   </div>
   <div class="hero-copy wrap">
     <span class="tag">Detrás de esta puerta</span>
     <h1>Desde la calle no se ve. Aquí dentro, sí se entrena.</h1>
     <p>Ven a probarlo con nosotros: <strong>tu primera semana es gratis</strong> y sin compromiso.</p>
     <a class="btn" href="#reserva" data-cta>Quiero mi semana gratis</a>
-    <div class="hint">Te cuesta 30 segundos reservar</div>
+    <a class="where" data-maps href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg><u>C/ Metalurgia 8 (posterior), Alcobendas</u></a>
   </div>
 </header>
 
 <main class="wrap">
+
+  <!-- ============ DÓNDE ESTAMOS (arriba: es la primera duda) ============ -->
+  <section id="llegar">
+    <div class="kicker">Dónde estamos</div>
+    <h2>Calle de la Metalurgia 8, Alcobendas</h2>
+    <div class="loc">
+      <iframe data-map-embed title="Mapa de CODEK Training" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="loc-body">
+        <div class="addr">Calle de la Metalurgia, 8 (posterior)<small>28108 Alcobendas · Polígono industrial con aparcamiento fácil</small></div>
+        <div class="loc-btns">
+          <a class="btn map" data-maps href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>Cómo llegar con Google Maps</a>
+          <a class="btn wa" data-wa href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.07-.13-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.89 9.88m8.41-18.3A11.81 11.81 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></svg>¿Dudas? Escríbenos por WhatsApp</a>
+        </div>
+        <div class="route">
+          <div class="point"><b>1</b><div><h3>Entra por el portal</h3><p>En la parte de atrás del número 8.</p></div></div>
+          <div class="point"><b>2</b><div><h3>En el hall, busca CODEK</h3><p>Verás varias puertas: la nuestra tiene el cartel de CODEK.</p></div></div>
+          <div class="point"><b>3</b><div><h3>Entra sin llamar</h3><p>Dile al entrenador que vienes a tu semana de prueba.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ CLASES ============ -->
   <section id="clases">
@@ -226,19 +265,6 @@ footer .logo{color:var(--text);margin-bottom:8px}
     </div>
   </section>
 
-  <!-- ============ CÓMO LLEGAR ============ -->
-  <section id="llegar">
-    <div class="kicker">Cómo llegar</div>
-    <h2>No te pierdas: estamos dentro del portal</h2>
-    <div class="route">
-      <div class="point"><b>1</b><div><h3>Entra por el portal</h3><p id="dirTxt">La misma puerta donde has visto el cartel.</p></div></div>
-      <div class="point"><b>2</b><div><h3>En el hall, busca CODEK</h3><p id="puertaTxt">Verás varias puertas: la nuestra tiene el cartel de CODEK.</p></div></div>
-      <div class="point"><b>3</b><div><h3>Entra sin llamar</h3><p>Dile al entrenador que vienes a tu semana de prueba. Él se encarga del resto.</p></div></div>
-    </div>
-    <a class="btn ghost map-link" id="mapLink" target="_blank" rel="noopener" hidden>Abrir en Google Maps</a>
-    <a class="btn ghost map-link" id="waLink" target="_blank" rel="noopener" hidden>¿Dudas? Escríbenos por WhatsApp</a>
-  </section>
-
 </main>
 
 <footer>
@@ -246,7 +272,7 @@ footer .logo{color:var(--text);margin-bottom:8px}
   Domina tu cuerpo · transforma tu mente
 </footer>
 
-<div class="sticky" id="sticky"><a class="btn" href="#reserva" data-cta>Quiero mi semana gratis</a></div>
+<div class="sticky" id="sticky"><div class="sticky-in"><a class="btn" href="#reserva" data-cta>Quiero mi semana gratis</a><a class="icon-btn wa" data-wa href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.07-.13-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.89 9.88m8.41-18.3A11.81 11.81 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></svg></a></div></div>
 
 <script>
 /* ================== CONFIGURACIÓN (rellena lo que falte) ================== */
@@ -254,10 +280,9 @@ var CFG = {
   API: 'https://script.google.com/macros/s/AKfycbxLrYar_Enx5Uk49uXtxi0ok87eFZaNGuMYllbAx0KlFNu8A6kaFJFUAHm1hiJ2r4SxRg/exec',
   TOKEN: 'codek-9fK2mP7qX4',
   DIAS: 14,              // días que se ofrecen para la primera clase
-  DIRECCION: '',         // p. ej. 'Calle Ejemplo 12, Bilbao' -> aparece en "Cómo llegar"
-  PUERTA: '',            // p. ej. 'Es la segunda puerta a la izquierda.'
-  MAPS: '',              // enlace de Google Maps
-  WHATSAPP: ''           // solo números con prefijo, p. ej. '34600000000'
+  DIRECCION: 'Calle de la Metalurgia 8, 28108 Alcobendas',   // para Maps y el calendario
+  WHATSAPP: '34681806949',                                    // WhatsApp de CODEK (con prefijo, sin +)
+  WA_TEXTO: '¡Hola! He visto el cartel de la semana gratis y tengo una duda.'
 };
 /* ========================================================================= */
 
@@ -266,15 +291,15 @@ var DEMO = qs.has('demo');
 var SRC = (qs.get('src') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 20);
 var ORIGEN = SRC === 'puerta' ? 'QR puerta' : SRC === 'hall' ? 'QR hall' : SRC ? 'QR ' + SRC : 'Landing semana gratis';
 
-/* ---------- textos configurables ---------- */
-if (CFG.DIRECCION) document.getElementById('dirTxt').textContent = CFG.DIRECCION + '. Es la puerta de la calle donde has visto el cartel.';
-if (CFG.PUERTA) document.getElementById('puertaTxt').textContent = CFG.PUERTA;
-if (CFG.MAPS) { var m = document.getElementById('mapLink'); m.href = CFG.MAPS; m.hidden = false; }
-if (CFG.WHATSAPP) {
-  var w = document.getElementById('waLink');
-  w.href = 'https://wa.me/' + CFG.WHATSAPP + '?text=' + encodeURIComponent('¡Hola! He visto el cartel de la semana gratis y tengo una duda.');
-  w.hidden = false;
-}
+/* ---------- Google Maps y WhatsApp ---------- */
+var MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CFG.DIRECCION);
+var WA_URL = 'https://wa.me/' + CFG.WHATSAPP + '?text=' + encodeURIComponent(CFG.WA_TEXTO);
+document.querySelectorAll('[data-maps]').forEach(function (a) { a.href = MAPS_URL; });
+document.querySelectorAll('[data-wa]').forEach(function (a) { a.href = WA_URL; });
+(function () {
+  var f = document.querySelector('[data-map-embed]');
+  if (f) f.src = 'https://www.google.com/maps?q=' + encodeURIComponent(CFG.DIRECCION) + '&output=embed';
+})();
 
 /* ---------- vídeos: reproducir solo los que se ven ---------- */
 (function () {
@@ -371,7 +396,7 @@ function cargarHuecos() {
   }).catch(function () {
     $days.innerHTML = '';
     msg('No hemos podido cargar las horas libres. <a href="#" id="retry" style="color:inherit;font-weight:600">Reintentar</a>' +
-      (CFG.WHATSAPP ? ' o <a style="color:inherit;font-weight:600" href="https://wa.me/' + CFG.WHATSAPP + '">escríbenos por WhatsApp</a>' : ''));
+      ' o <a style="color:inherit;font-weight:600" target="_blank" rel="noopener" href="' + WA_URL + '">escríbenos por WhatsApp</a>');
     var r = document.getElementById('retry');
     if (r) r.onclick = function (e) { e.preventDefault(); cargarHuecos(); };
   });
@@ -379,7 +404,7 @@ function cargarHuecos() {
 
 function pintarDias() {
   var dias = Object.keys(porDia).sort();
-  if (!dias.length) { $days.innerHTML = ''; msg('Ahora mismo no quedan horas libres. Escríbenos y te buscamos un hueco.'); return; }
+  if (!dias.length) { $days.innerHTML = ''; msg('Ahora mismo no quedan horas libres. <a style="color:inherit;font-weight:600" target="_blank" rel="noopener" href="' + WA_URL + '">Escríbenos por WhatsApp</a> y te buscamos un hueco.'); return; }
   $days.innerHTML = '';
   dias.forEach(function (f) {
     var b = document.createElement('button');
@@ -446,8 +471,8 @@ function exito(fecha, hora) {
   document.getElementById('calLink').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
     '&text=' + encodeURIComponent('Semana gratis · CODEK Training') +
     '&dates=' + ini + '/' + fin + '&ctz=Europe/Madrid' +
-    '&details=' + encodeURIComponent('Tu primera clase de la semana gratis. Trae ropa cómoda y agua. Entra por el portal y en el hall busca la puerta de CODEK.') +
-    (CFG.DIRECCION ? '&location=' + encodeURIComponent(CFG.DIRECCION) : '');
+    '&details=' + encodeURIComponent('Tu primera clase de la semana gratis. Trae ropa cómoda y agua. Calle de la Metalurgia 8 (posterior): entra por el portal y en el hall busca la puerta de CODEK. Dudas: wa.me/' + CFG.WHATSAPP) +
+    '&location=' + encodeURIComponent(CFG.DIRECCION);
   if (window.__stickyOff) window.__stickyOff();
   done.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
