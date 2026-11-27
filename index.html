@@ -7,7 +7,7 @@
 <meta name="description" content="Mira cómo entrenamos por dentro y reserva tu primera semana gratis en CODEK Training.">
 <meta name="theme-color" content="#0e0f11">
 <meta property="og:title" content="Tu primera semana gratis en CODEK Training">
-<meta property="og:description" content="Desde la calle no se ve. Entra y míralo por dentro.">
+<meta property="og:description" content="Domina tu cuerpo, controla tu mente. Da el primer paso: tu primera semana es gratis.">
 <meta property="og:image" content="media/clase1.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,7 +95,8 @@ h2{font-size:30px;line-height:1.08;font-weight:900;text-wrap:balance}
 .days::-webkit-scrollbar{display:none}
 .chip{flex:0 0 auto;min-width:64px;padding:10px 8px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--text);text-align:center;cursor:pointer;line-height:1.15}
 .chip small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.chip strong{font:800 20px Archivo,sans-serif}
+.chip strong{display:block;font:800 20px Archivo,sans-serif}
+.chip em{display:block;font-style:normal;font-size:11px;color:var(--muted)}
 .chip[aria-pressed="true"]{border-color:var(--accent);background:rgba(228,81,58,.14)}
 .chip[aria-pressed="true"] small{color:var(--text)}
 .hours{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
@@ -153,7 +154,7 @@ footer .logo{color:var(--text);margin-bottom:8px}
 </head>
 <body>
 
-<!-- ============ HERO: lo que no se ve desde la calle ============ -->
+<!-- ============ HERO: invitación a empezar ============ -->
 <header class="hero">
   <img class="poster" src="media/clase1.jpg" alt="">
   <video id="heroVideo" src="media/clase1.mp4" poster="media/clase1.jpg" autoplay muted loop playsinline preload="auto" aria-label="Clase en grupo en CODEK Training"></video>
@@ -165,9 +166,9 @@ footer .logo{color:var(--text);margin-bottom:8px}
     </div>
   </div>
   <div class="hero-copy wrap">
-    <span class="tag">Detrás de esta puerta</span>
-    <h1>Desde la calle no se ve. Aquí dentro, sí se entrena.</h1>
-    <p>Ven a probarlo con nosotros: <strong>tu primera semana es gratis</strong> y sin compromiso.</p>
+    <span class="tag">Entrenar es para siempre</span>
+    <h1>Domina tu cuerpo. Controla tu mente.</h1>
+    <p>Todo hábito empieza con un primer paso. Da el tuyo con nosotros: <strong>tu primera semana es gratis</strong> y sin compromiso.</p>
     <a class="btn" href="#reserva" data-cta>Quiero mi semana gratis</a>
     <a class="where" data-maps href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg><u>C/ Metalurgia 8 (posterior), Alcobendas</u></a>
   </div>
@@ -302,7 +303,8 @@ footer .logo{color:var(--text);margin-bottom:8px}
 var CFG = {
   API: 'https://script.google.com/macros/s/AKfycbxLrYar_Enx5Uk49uXtxi0ok87eFZaNGuMYllbAx0KlFNu8A6kaFJFUAHm1hiJ2r4SxRg/exec',
   TOKEN: 'codek-9fK2mP7qX4',
-  DIAS: 14,              // días que se ofrecen para la primera clase
+  HASTA: '2026-12-31',   // último día que se puede reservar la primera clase
+  DIAS_MIN: 14,          // pasada esa fecha, se siguen ofreciendo al menos estos días
   DIRECCION: 'Calle de la Metalurgia 8, 28108 Alcobendas',   // para Maps y el calendario
   WHATSAPP: '34681806949',                                    // WhatsApp de CODEK (con prefijo, sin +)
   WA_TEXTO: '¡Hola! He visto el cartel de la semana gratis y tengo una duda.',
@@ -412,7 +414,8 @@ function cargarHuecos() {
   return api({ action: 'huecos', tipo: 'prueba' }).then(function (r) {
     if (!r || !r.ok) throw new Error(r && r.error || 'error');
     porDia = {};
-    var limite = iso(new Date(Date.now() + CFG.DIAS * 864e5));
+    var minimo = iso(new Date(Date.now() + CFG.DIAS_MIN * 864e5));
+    var limite = CFG.HASTA > minimo ? CFG.HASTA : minimo;
     (r.huecos || []).forEach(function (h) {
       if (h.fecha > limite) return;
       (porDia[h.fecha] = porDia[h.fecha] || []).push(h);
@@ -434,7 +437,7 @@ function pintarDias() {
   dias.forEach(function (f) {
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', f === diaSel);
-    b.innerHTML = '<small>' + etiquetaDia(f) + '</small><strong>' + parse(f).getDate() + '</strong>';
+    b.innerHTML = '<small>' + etiquetaDia(f) + '</small><strong>' + parse(f).getDate() + '</strong><em>' + MES[parse(f).getMonth()].slice(0, 3) + '</em>';
     b.onclick = function () { elegirDia(f); };
     $days.appendChild(b);
   });
