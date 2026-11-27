@@ -329,6 +329,37 @@ document.querySelectorAll('[data-ig]').forEach(function (a) { a.href = 'https://
   if (f) f.src = 'https://www.google.com/maps?q=' + encodeURIComponent(CFG.DIRECCION) + '&output=embed';
 })();
 
+/* ---------- contador de visitas (pestaña "Visitas QR" del CRM) ----------
+   Cuenta cada visita y los clics en reservar / WhatsApp / Maps / Instagram.
+   No cuenta en local ni en modo demo. Abre la página una vez con ?nocontar=1 en
+   tu móvil (o el de un entrenador) y ese móvil deja de contar para siempre. */
+var CONTAR = (function () {
+  if (DEMO || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return false;
+  try {
+    if (qs.has('nocontar')) localStorage.setItem('codek_nocontar', '1');
+    return !localStorage.getItem('codek_nocontar');
+  } catch (e) { return true; }
+})();
+var VISITANTE = (function () {
+  try {
+    var v = localStorage.getItem('codek_v');
+    if (!v) { v = Math.random().toString(36).slice(2, 12); localStorage.setItem('codek_v', v); }
+    return v;
+  } catch (e) { return 'x' + Math.random().toString(36).slice(2, 11); }
+})();
+var DISP = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'móvil' : 'ordenador';
+function contar(ev) {
+  if (!CONTAR) return;
+  api({ action: 'visita', evento: ev, origen: ORIGEN, visitante: VISITANTE, disp: DISP }).catch(function () {});
+}
+contar('visita');
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('[data-cta],[data-wa],[data-maps],[data-ig]');
+  if (!a) return;
+  contar(a.hasAttribute('data-cta') ? 'reservar' : a.hasAttribute('data-wa') ? 'whatsapp' :
+         a.hasAttribute('data-maps') ? 'maps' : 'instagram');
+}, true);
+
 /* ---------- vídeos: reproducir solo los que se ven ---------- */
 (function () {
   var hero = document.getElementById('heroVideo');
@@ -493,6 +524,7 @@ $data.addEventListener('submit', function (e) {
 });
 
 function exito(fecha, hora) {
+  contar('reserva');
   document.getElementById('bookForm').hidden = true;
   var done = document.getElementById('bookDone'); done.hidden = false;
   document.getElementById('doneWhen').textContent = fechaLarga(fecha) + ' · ' + hora;
