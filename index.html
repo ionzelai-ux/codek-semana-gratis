@@ -335,6 +335,9 @@ document.querySelectorAll('[data-ig]').forEach(function (a) { a.href = 'https://
    tu móvil (o el de un entrenador) y ese móvil deja de contar para siempre. */
 var CONTAR = (function () {
   if (DEMO || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return false;
+  // Robots (Google, Bing, vistas previas de enlaces, herramientas de prueba): no son personas.
+  if (navigator.webdriver ||
+      /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|preview|facebookexternalhit|embedly|inspectiontool/i.test(navigator.userAgent)) return false;
   try {
     if (qs.has('nocontar')) localStorage.setItem('codek_nocontar', '1');
     return !localStorage.getItem('codek_nocontar');
